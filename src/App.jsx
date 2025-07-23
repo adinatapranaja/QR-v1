@@ -1,23 +1,23 @@
 // src/App.jsx
 import React, { Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
-import { ThemeProvider } from './context/ThemeContext';
-import ProtectedRoute from './components/ProtectedRoute';
-import LoadingSpinner from './components/LoadingSpinner';
+import { AuthProvider } from './context/AuthContext.jsx';
+import { ThemeProvider } from './context/ThemeContext.jsx';
+import ProtectedRoute from './components/ProtectedRoute.jsx';
+import LoadingSpinner from './components/LoadingSpinner.jsx';
 
 // Lazy load pages for better performance
-const Landing = React.lazy(() => import('./pages/Landing'));
-const Login = React.lazy(() => import('./pages/Login'));
-const Dashboard = React.lazy(() => import('./pages/Dashboard'));
-const Events = React.lazy(() => import('./pages/Events'));
-const Attendees = React.lazy(() => import('./pages/Attendees'));
-const Scanner = React.lazy(() => import('./pages/Scanner'));
-const Analytics = React.lazy(() => import('./pages/Analytics'));
-const Settings = React.lazy(() => import('./pages/Settings'));
+const Landing = React.lazy(() => import('./pages/Landing.jsx'));
+const Login = React.lazy(() => import('./pages/Login.jsx'));
+const Dashboard = React.lazy(() => import('./pages/Dashboard.jsx'));
+const Events = React.lazy(() => import('./pages/Events.jsx'));
+const Attendees = React.lazy(() => import('./pages/Attendees.jsx'));
+const Scanner = React.lazy(() => import('./pages/Scanner.jsx'));
+const Analytics = React.lazy(() => import('./pages/Analytics.jsx'));
+const Settings = React.lazy(() => import('./pages/Settings.jsx'));
 
 // Layout wrapper for dashboard pages
-const DashboardLayout = React.lazy(() => import('./components/DashboardLayout'));
+const DashboardLayout = React.lazy(() => import('./components/DashboardLayout.jsx'));
 
 function App() {
   return (
