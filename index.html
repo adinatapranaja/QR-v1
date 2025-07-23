@@ -1,88 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- Primary Meta Tags -->
-    <title>QR Event Pro - Modern Event Management Platform</title>
-    <meta name="title" content="QR Event Pro - Modern Event Management Platform">
-    <meta name="description" content="Streamline your events with QR code check-in system. Complete event management platform with attendee tracking, analytics, and real-time scanning.">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    
-    <!-- Theme Color -->
-    <meta name="theme-color" content="#ef4444">
-    
-    <!-- Basic styles without Tailwind -->
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-            background: #000000;
-            color: #ffffff;
-        }
-        
-        #root {
-            min-height: 100vh;
-        }
-        
-        .loading {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-        }
-        
-        .loading h1 {
-            color: #ef4444;
-            margin-bottom: 20px;
-        }
-        
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid #333;
-            border-top: 3px solid #ef4444;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
-</head>
-<body>
-    <!-- Loading Screen -->
-    <div class="loading" id="loading">
-        <h1>QR Event Pro</h1>
-        <div class="spinner"></div>
-    </div>
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import { resolve } from 'path'
 
-    <!-- Main App Container -->
-    <div id="root"></div>
-    
-    <!-- Hide loading when app loads -->
-    <script>
-        window.addEventListener('load', function() {
-            setTimeout(() => {
-                const loading = document.getElementById('loading');
-                if (loading) loading.style.display = 'none';
-            }, 1000);
-        });
-    </script>
-    
-    <!-- Main App Script -->
-    <script type="module" src="/src/index.js"></script>
-</body>
-</html>
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [
+    react({
+      include: "**/*.{jsx,tsx,js,ts}", // Allow JSX in .js files
+    })
+  ],
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, 'src'),
+      '@components': resolve(__dirname, 'src/components'),
+      '@pages': resolve(__dirname, 'src/pages'),
+      '@utils': resolve(__dirname, 'src/utils'),
+      '@context': resolve(__dirname, 'src/context'),
+      '@styles': resolve(__dirname, 'src/styles'),
+      '@assets': resolve(__dirname, 'src/assets')
+    }
+  },
+  server: {
+    port: 3000,
+    open: true,
+    host: true
+  },
+  build: {
+    outDir: 'dist',
+    sourcemap: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          router: ['react-router-dom'],
+          firebase: ['firebase/app', 'firebase/auth', 'firebase/firestore'],
+          ui: ['lucide-react', 'framer-motion']
+        }
+      }
+    }
+  },
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'react-router-dom', 'firebase/app', 'firebase/auth', 'firebase/firestore']
+  }
+})
